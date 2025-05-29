@@ -1,1 +1,124 @@
-{"swagger":"2.0","info":{"description":"Send Sms Api","version":"0.1","title":"Send Sms Api 1.0","contact":{},"license":{"url":"http://unlicense.org"}},"host":"10.218.41.26:6006","basePath":"/SendSmsApi/v1","tags":[{"name":"send-sms-api-controller","description":"the SendSms API"}],"paths":{"/SendSms":{"post":{"tags":["send-sms-api-controller"],"summary":"Send Sms to Smsc","description":"Service used to send SMS","operationId":"sendSmsGet","consumes":["application/json"],"produces":["application/json;charset=utf-8"],"parameters":[{"name":"App","in":"query","description":"App (e.g. 001)","required":true,"type":"string","allowEmptyValue":false},{"name":"Message","in":"query","description":"Message (e.g. Text 160 chars)","required":true,"type":"string","allowEmptyValue":false},{"name":"Msisdn","in":"query","description":"Msisdn (e.g. 50211223344)","required":true,"type":"string","allowEmptyValue":false},{"name":"Source","in":"query","description":"Source (e.g. CLARO)","required":true,"type":"string","allowEmptyValue":false}],"responses":{"200":{"description":"Success","schema":{"type":"array","items":{"$ref":"#/definitions/SendSmsResponse"}}},"201":{"description":"Created"},"204":{"description":"No Content","schema":{"type":"array","items":{"$ref":"#/definitions/SendSmsResponse"}}},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"deprecated":false}}},"definitions":{"SendSmsResponse":{"type":"object","properties":{"description":{"type":"string","example":"Sms sended Ok.","description":"Description of Response"},"responseMessage":{"type":"string","example":"S","description":"Response of the Smsc. S=Sended, 20=Cant Delivery Message"}},"title":"SendSmsResponse","description":"Send Sms Api."}}}
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Send Sms Api",
+    "version": "0.1",
+    "title": "Send Sms Api 1.0",
+    "contact": {},
+    "license": {
+      "url": "http://unlicense.org"
+    }
+  },
+  "host": "10.218.41.26:6006",
+  "basePath": "/SendSmsApi/v1",
+  "tags": [
+    {
+      "name": "send-sms-api-controller",
+      "description": "the SendSms API"
+    }
+  ],
+  "paths": {
+    "/SendSms": {
+      "post": {
+        "tags": [
+          "send-sms-api-controller"
+        ],
+        "summary": "Send Sms to Smsc",
+        "description": "Service used to send SMS",
+        "operationId": "sendSmsGet",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json;charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "App",
+            "in": "query",
+            "description": "App (e.g. 001)",
+            "required": true,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "Message",
+            "in": "query",
+            "description": "Message (e.g. Text 160 chars)",
+            "required": true,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "Msisdn",
+            "in": "query",
+            "description": "Msisdn (e.g. 50211223344)",
+            "required": true,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "Source",
+            "in": "query",
+            "description": "Source (e.g. CLARO)",
+            "required": true,
+            "type": "string",
+            "allowEmptyValue": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SendSmsResponse"
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "204": {
+            "description": "No Content",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SendSmsResponse"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "SendSmsResponse": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string",
+          "example": "Sms sended Ok.",
+          "description": "Description of Response"
+        },
+        "responseMessage": {
+          "type": "string",
+          "example": "S",
+          "description": "Response of the Smsc. S=Sended, 20=Cant Delivery Message"
+        }
+      },
+      "title": "SendSmsResponse",
+      "description": "Send Sms Api."
+    }
+  }
+}
