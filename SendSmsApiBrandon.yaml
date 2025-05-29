@@ -1,147 +1,112 @@
-openapi: 3.0.0
+swagger: "2.0"
 info:
   title: API SendSMS v1 BRANDON
-  version: 1.0.0
-  description: |-
+  description: |
     API para envio de mensajes de texto, se debe de generar un token de acceso para el consumo del metodo
-    
+
     Servicio OAuth2:
     - [API OAuth2](https://dev-portal-qa.claro.com.gt/apis/oauthv2)
-  
-servers:
-  - url: https://api-qa-cloud.cenam.claro.com.gt
-    description: externo
-components:
-  securitySchemes:
-    bearerAuth:    
-      type: http
-      scheme: bearer
-      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
-    apiKey:
-      type: apiKey
-      name: Authorization
-      in: header
-  schemas:
-    requestToSend:
-      type: object
-      properties:
-        App:
-          type: string
-          example: API
-          pattern: ^[A-Z0-9]+$
-          maxLength: 5
-        Source:
-          type: string
-          example: Claro
-          pattern: ^[A-Za-z0-9]+$
-          maxLength: 10
-        Msisdn:
-          type: string
-          example: 50211223344
-          pattern: ^[0-9]+$
-          maxLength: 11
-        Message:
-          type: string
-          example: Mensaje de prueba de SMS desde API SendSMS
-          maxLength: 150
-      additionalProperties: false
-      required:
-        - App
-        - Source
-        - Msisdn
-        - Message
-    responseError:
-      type: object
-      properties:
-        status:
-          type: integer
-          example: 400
-        message:
-          type: string
-          example: Bad Request
-      additionalProperties: false
-      required:
-        - status
-        - message
-    responseSend:
-      type: object
-      properties:
-        description:
-          type: string
-          example: S
-          maxLength: 1
-          pattern: ^[S|E]$
-        responseMessage:
-          type: string
-          example: mensaje enviado
-      additionalProperties: false
-      required:
-        - description
-        - responseMessage
-  requestBodies:
-    requestToSend:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/requestToSend'
+  version: "1.0.0"
+
+host: api-qa-cloud.cenam.claro.com.gt
+schemes:
+  - https
+basePath: /
+
+securityDefinitions:
+  bearerAuth:
+    type: apiKey
+    name: Authorization
+    in: header
+  apiKey:
+    type: apiKey
+    name: Authorization
+    in: header
+
+security:
+  - bearerAuth: []
+  - apiKey: []
 
 paths:
   /sendsmsBRANDON/v1/SendSms:
     post:
-      tags:
-        - default
       summary: SendSMS
       operationId: sendSMS
-      security:
-        - bearerAuth: []
-        - apiKey: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/requestToSend'
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/requestToSend'
       responses:
-        '200':
+        200:
           description: Successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/responseSend'
-              examples:
-                confirmation-success:
-                  description: Mensaje enviado con exito
-                  value:
-                    description: SMS Sended OK
-                    responseMessage: S
-                confirmation-error:
-                  description: Mensaje no se puedo enviar
-                  value:
-                    description: SMS Sended Error
-                    responseMessage: E
-        '401':
+          schema:
+            $ref: '#/definitions/responseSend'
+        401:
           description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/responseError'
-        '403':
+          schema:
+            $ref: '#/definitions/responseError'
+        403:
           description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/responseError'
-        '429':
+          schema:
+            $ref: '#/definitions/responseError'
+        429:
           description: Too Many Requests
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/responseError'
+          schema:
+            $ref: '#/definitions/responseError'
         default:
           description: Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/responseError'
-security:
-  - bearerAuth: [] 
-  - apiKey: []
+          schema:
+            $ref: '#/definitions/responseError'
+
+definitions:
+  requestToSend:
+    type: object
+    required: [App, Source, Msisdn, Message]
+    properties:
+      App:
+        type: string
+        example: API
+        maxLength: 5
+        pattern: ^[A-Z0-9]+$
+      Source:
+        type: string
+        example: Claro
+        maxLength: 10
+        pattern: ^[A-Za-z0-9]+$
+      Msisdn:
+        type: string
+        example: 50211223344
+        maxLength: 11
+        pattern: ^[0-9]+$
+      Message:
+        type: string
+        example: Mensaje de prueba de SMS desde API SendSMS
+        maxLength: 150
+  responseSend:
+    type: object
+    required: [description, responseMessage]
+    properties:
+      description:
+        type: string
+        example: S
+        maxLength: 1
+        pattern: ^[S|E]$
+      responseMessage:
+        type: string
+        example: mensaje enviado
+  responseError:
+    type: object
+    required: [status, message]
+    properties:
+      status:
+        type: integer
+        example: 400
+      message:
+        type: string
+        example: Bad Request
