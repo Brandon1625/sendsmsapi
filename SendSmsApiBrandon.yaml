@@ -1,4 +1,4 @@
-openapi: 2.0
+openapi: 3.0.1
 info:
   title: API SendSMS v1 BRANDON
   version: 1.0.0
